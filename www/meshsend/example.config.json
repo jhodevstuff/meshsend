@@ -1,0 +1,4 @@
+{
+  "meshtastic_cli": "/usr/local/bin/meshtastic",
+  "host": "If your node is connected via network, paste the IP in here"
+}

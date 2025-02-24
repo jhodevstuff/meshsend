@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>meshsend</title>
+  <style>
+    /* This is a proof of concept. It's ment to be dirty af. Don't look for styles. */
+  </style>
+</head>
+<body>
+  <form id="meshsend">
+    <label for="node">Node:</label>
+    <input type="text" id="node" name="node" pattern="^!?[a-zA-Z0-9]+$">
+    <br>
+    <br>
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" maxlength="30"><br><br>
+    <label for="message">Nachricht*:</label>
+    <textarea id="message" name="message" required maxlength="230"></textarea>
+    <br>
+    <br>
+    <button type="submit">Senden</button>
+  </form>
+  <script>
+    const form = document.querySelector('#meshsend');
+    const urlParams = new URLSearchParams(window.location.search); // cannot explain what i tried with that, passing params in url should be a php thing
+    const nodeParam = urlParams.get('node');
+    if (nodeParam) {
+      document.querySelector('#node').value = nodeParam;
+    }
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const formData = new FormData(form);
+      fetch('meshsend.php', {
+        method: 'POST',
+        body: formData
+      })
+      .then(response => response.json())
+      .then(data => {
+        console.log('Erfolg:', data);
+        form.reset();
+      })
+      .catch(error => console.error('Error:', error));
+    });
+  </script>
+</body>
+</html>
